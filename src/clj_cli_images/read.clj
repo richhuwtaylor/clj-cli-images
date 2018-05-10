@@ -83,6 +83,19 @@
        :y       (read-number y)
        :colour  (read-colour c)})))
 
+(defmethod read-command :R
+  [[_ & rest]]
+  (if (not (and (> (count rest) 2)
+                (every? number? (map read-number (take 2 rest)))
+                (map read-colour (drop 2 rest))))
+    {:command :error
+     :message "Invalid arguments for command: R"}
+    (let [[x y & colours] rest]
+      {:command :radius
+       :x       (read-number x)
+       :y       (read-number y)
+       :colours (mapv read-colour colours)})))
+
 (defmethod read-command :S
   [_]
   {:command :show-image})

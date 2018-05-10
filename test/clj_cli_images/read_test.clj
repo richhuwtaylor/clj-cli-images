@@ -59,6 +59,14 @@
             :colour  "P"}
            (read-command ["F" "4" "4" "P"])))))
 
+(deftest radius-command-test
+  (testing "issues command to colour colour concentric squares"
+    (is (= {:command :radius
+            :x       4
+            :y       4
+            :colours ["M" "P"]}
+           (read-command ["R" "4" "4" "M" "P"])))))
+
 (deftest error-command-test
   (testing "issues command to error when input not recognised"
     (is (= :error

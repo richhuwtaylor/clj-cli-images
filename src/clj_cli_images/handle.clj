@@ -79,6 +79,27 @@
         new-image     (merge image new-pixels)]
     (assoc state :image new-image)))
 
+(defn- get-pixel-coords-at-radius
+  [x y r image]
+  (->> (for [dx (range (- r) (inc r))
+             dy (range (- r) (inc r))]
+         (when (or (= (abs dx) r)
+                   (= (abs dy) r))
+           [(+ x dx) (+ y dy)]))
+       (remove nil?)
+       (set)
+       (set/intersection (set (keys image)))))
+
+(defmethod handle-command :radius
+  [{:keys [:x :y :colours]} {:keys [:image] :as state}]
+  (let [new-pixels (->> colours
+                        (map-indexed (fn [i colour]
+                                       (-> (get-pixel-coords-at-radius x y i image)
+                                           (zipmap (repeat colour)))))
+                        (reduce merge))
+        new-image (merge image new-pixels)]
+    (assoc state :image new-image)))
+
 (defmethod handle-command :show-image
   [_ {:keys [:cols :image] :as state}]
   (->> (into (utils/sorted-image-map) image)

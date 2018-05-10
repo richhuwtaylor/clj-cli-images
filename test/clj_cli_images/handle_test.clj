@@ -19,6 +19,14 @@
    :rows  4
    :cols  4})
 
+(def test-state-radius
+  {:image {[1 1] "P" [2 1] "P" [3 1] "P" [4 1] "O"
+           [1 2] "P" [2 2] "M" [3 2] "P" [4 2] "O"
+           [1 3] "P" [2 3] "P" [3 3] "P" [4 3] "O"
+           [1 4] "O" [2 4] "O" [3 4] "O" [4 4] "O"}
+   :rows  4
+   :cols  4})
+
 (deftest create-image-test
   (testing "creates an image"
     (is (= test-state (handle-command
@@ -73,6 +81,17 @@
                                    :x       2
                                    :y       2
                                    :colour  "P"}
+                                  test-state-region))
+                        [[2 2] [3 2] [2 3] [3 3]])))))
+
+(deftest radius-test
+  (testing "colours pixels in concentric squares correctly"
+    (is (= {[2 2] "M" [3 2] "P" [2 3] "P" [3 3] "P"}
+           (select-keys (:image (handle-command
+                                  {:command :radius
+                                   :x       2
+                                   :y       2
+                                   :colours ["M" "P"]}
                                   test-state-region))
                         [[2 2] [3 2] [2 3] [3 3]])))))
 

@@ -16,7 +16,7 @@ The origin sits in the upper-left of the table. Colours are specified by
 capital letters.
 
 #### Commands
-The editor supports 8 commands:
+The editor supports 9 commands:
 1) `I M N`​. Create a new M x N image with all pixels coloured white (O).
 2) `C`​. Clears the table, setting all pixels to white (O).
 3) `L X Y C`​. Colours the pixel (X,Y) with colour C.
@@ -27,8 +27,10 @@ The editor supports 8 commands:
 6) `F X Y C`​. Fill the region R with the colour C. R is defined as: Pixel (X,Y) belongs to R. Any other
 pixel which is the same colour as (X,Y) and shares a common side with any pixel in R also
 belongs to this region.
-7) `S`​. Show the contents of the current image.
-8) `X`​. Terminate the session.
+7) `R X Y C1 C2 ...` Fill concentric 'rings' of pixels centered on (X,Y) with the supplied colours C,
+from innermost to outermost.
+8) `S`​. Show the contents of the current image.
+9) `X`​. Terminate the session.
 
 #### Example Usage
 Create a new 5 x 6 white image, colour pixel (2,3) with colour A, then show the image:  
